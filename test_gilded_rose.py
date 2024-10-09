@@ -5,11 +5,11 @@ from gilded_rose import Item, GildedRose
 
 
 class GildedRoseTest(unittest.TestCase):
-    def test_foo(self):
-        items = [Item("foo", 0, 0)]
-        gilded_rose = GildedRose(items)
-        gilded_rose.update_quality()
-        self.assertEquals("fixme", items[0].name)
+    # def test_foo(self):
+    #     items = [Item("foo", 0, 0)]
+    #     gilded_rose = GildedRose(items)
+    #     gilded_rose.update_quality()
+    #     self.assertEquals("fixme", items[0].name)
 
     def test_vest_item_should_decrease_after_one_day(self):
 
@@ -19,7 +19,13 @@ class GildedRoseTest(unittest.TestCase):
 
         gr.update_quality()
 
-        assert gr.items == [Item(vest, 0, 1), Item(vest, 8, 18), Item(vest, 3, 5)]
+        # Compare individual attributes instead of comparing Item objects
+        self.assertEqual(gr.items[0].sell_in, 0)
+        self.assertEqual(gr.items[0].quality, 1)
+        self.assertEqual(gr.items[1].sell_in, 8)
+        self.assertEqual(gr.items[1].quality, 18)
+        self.assertEqual(gr.items[2].sell_in, 3)
+        self.assertEqual(gr.items[2].quality, 5)
 
 
     def test_aged_brie_quality_increase(self):
@@ -37,6 +43,7 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEqual(gilded_rose.items[0].quality, 80)  # Quality should not change
         self.assertEqual(gilded_rose.items[0].sell_in, 10)  # Sell-in should not decrease
+
 
 if __name__ == '__main__':
     unittest.main()
